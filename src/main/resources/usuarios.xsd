@@ -33,7 +33,6 @@
             <xsd:element name="email" type="xsd:string"/>
             <xsd:element name="estado" type="xsd:string"/>
             <xsd:element name="organismo" type="tns:organismo" maxOccurs="unbounded"/>
-            <xsd:element name="rol" type="tns:rol" maxOccurs="unbounded"/>
         </xsd:sequence>
     </xsd:complexType>
     
@@ -42,6 +41,7 @@
             <xsd:element name="idOrganismo" type="xsd:string"/>
             <xsd:element name="razonSocial" type="xsd:string"/>
             <xsd:element name="numeroDocumento" type="xsd:string"/>
+            <xsd:element name="rol" type="tns:rol" maxOccurs="unbounded"/>
         </xsd:sequence>
     </xsd:complexType>
     

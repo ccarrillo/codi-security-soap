@@ -58,7 +58,6 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
 			usuario.setEstado(obj[6] != null ? obj[6].toString() : "");
 			if (obj[0] != null) {
 				this.cargarOrganismos(customerRequest.getUsername(), usuario);
-				this.cargarRoles(customerRequest.getUsername(), usuario);
 			}
 		}
 		
@@ -85,12 +84,15 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
 			organismo.setIdOrganismo(contObj[0]!=null ? contObj[0].toString() : "");
 			organismo.setRazonSocial(contObj[1]!=null ? contObj[1].toString() : "");
 			organismo.setNumeroDocumento(contObj[2]!=null ? contObj[2].toString() : "");
+			if (contObj[0]!=null) {
+				this.cargarRoles(userName, organismo.getIdOrganismo(), organismo);
+			}
 			usuario.getOrganismos().add(organismo);
 		}
 
 	}
 	
-	private void cargarRoles(String userName, UsuarioDto usuario) {
+	private void cargarRoles(String userName, String idOrganismo, OrganismoDto organismo) {
 		StringBuilder jpql = new StringBuilder();
 		
 		jpql.append("SELECT ROL.N_ID_ROL, ROL.C_NOMROL ");
@@ -98,17 +100,20 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
 		jpql.append("INNER JOIN ADM.DET_ADM_ROL_USU DRU ON (USU.N_ID_PERS = DRU.N_ID_PERS) ");
 		jpql.append("INNER JOIN ADM.TBL_ADM_ROL ROL ON (DRU.N_ID_ROL = ROL.N_ID_ROL) ");
 		jpql.append("INNER JOIN ADM.TBL_ADM_MOD MOD ON (ROL.N_ID_MODULO=MOD.N_ID_MODULO) ");
-		jpql.append("WHERE USU.C_CODOID = :uid ");
+		jpql.append("WHERE USU.C_CODOID = :uid AND DRU.N_ID_ORGAN = :idOrganismo ");
 		Query query = em.createNativeQuery(jpql.toString());
 		if(userName != null) {
 			query.setParameter("uid",userName);
+		}
+		if(idOrganismo != null) {
+			query.setParameter("idOrganismo",idOrganismo);
 		}
 		List<Object[]> listaObjeto = query.getResultList();
 		for (Object[] contObj : listaObjeto) {
 			RolDto rol = new RolDto();
 			rol.setCodigoRol(contObj[0]!=null ? contObj[0].toString() : "");
 			rol.setNombreRol(contObj[1]!=null ? contObj[1].toString() : "");
-			usuario.getRoles().add(rol);
+			organismo.getRoles().add(rol);
 		}
 
 	}

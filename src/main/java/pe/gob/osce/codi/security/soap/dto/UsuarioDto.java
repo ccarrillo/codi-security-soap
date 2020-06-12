@@ -22,8 +22,6 @@ public class UsuarioDto {
     private String estado;
     
     private List<OrganismoDto> organismos = new ArrayList<>();
-    
-    private List<RolDto> roles = new ArrayList<>();
 
 	public String getCodigoUsuario() {
 		return codigoUsuario;
@@ -95,14 +93,6 @@ public class UsuarioDto {
 
 	public void setOrganismos(List<OrganismoDto> organismos) {
 		this.organismos = organismos;
-	}
-
-	public List<RolDto> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<RolDto> roles) {
-		this.roles = roles;
 	}
 	
 }

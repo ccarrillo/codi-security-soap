@@ -65,13 +65,13 @@ public class UsuarioServiceImpl implements UsuarioService {
 							organismo.setIdOrganismo(obj.getIdOrganismo());
 							organismo.setRazonSocial(obj.getRazonSocial());
 							organismo.setNumeroDocumento(obj.getNumeroDocumento());
+							obj.getRoles().forEach(obj2 -> {
+								Rol rol = new Rol();
+								rol.setCodigoRol(obj2.getCodigoRol());
+								rol.setNombreRol(obj2.getNombreRol());
+								organismo.getRol().add(rol);
+							});
 							usuario.getOrganismo().add(organismo);
-						});
-						usuarioDto.getRoles().forEach(obj2 -> {
-							Rol rol = new Rol();
-							rol.setCodigoRol(obj2.getCodigoRol());
-							rol.setNombreRol(obj2.getNombreRol());
-							usuario.getRol().add(rol);
 						});
 					}
 					
